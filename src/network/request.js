@@ -3,7 +3,7 @@ import axios from 'axios'
 export function request(config) {
 
   const instance = axios.create({
-    baseURL:'https://api-hmugo-web.itheima.net/api/public/v1',
+    baseURL:'http://152.136.185.210:7878/api/m5',
     timeout:5000
   })
 
