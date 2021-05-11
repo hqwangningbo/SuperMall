@@ -10,7 +10,8 @@
            ref="scroll"
            :probe-type="3"
            @scroll="scrollContent"
-           :pull-up-load="true" >
+           :pull-up-load="true"
+           @pullingUp="loadMore"> <!-- pull-up-load="true" 可以滚动-->
      <home-swiper :banners="banners"/>
      <recommend-view :recommends="recommends"/>
      <feature-view/>
@@ -32,6 +33,8 @@
   import GoodsListItem from "@/components/content/goods/GoodsListItem";
   import BackTop from "@/components/content/backTop/BackTop";
   import {getHomeMultidata, getHomeGoods} from "@/network/home";
+
+  import {debounce} from "@/common/utils";
 
   import HomeSwiper from "@/views/home/childComps/HomeSwiper";
 
@@ -76,13 +79,21 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+    },
+    mounted(){
 
+      const refresh = debounce(this.$refs.scroll.refresh,300)
       //事件总线，解决滑动划不动的bug
+      //this.$refs.scroll在Created里面是可能拿不到的，在mounted就能拿到
       this.$bus.$on('itemImageLoad',()=>{
-        this.$refs.scroll.scroll.refresh()
+        //this.$refs.scroll先判断前面是否存在，再去执行下面的代码
+        refresh()
       })
     },
     methods: {
+      loadMore(){
+        this.getHomeGoods(this.currentType)
+      },
       tabClick(index) {
         switch (index) {
           case 0 :
@@ -96,13 +107,14 @@
             break
         }
       },
+
       /**
        * 跳转到顶部
        */
       backClick(){
         // console.log("backClick");
         //跳到顶部500毫秒
-        this.$refs.scroll.scroll.scrollTo(0,0,500)
+        this.$refs.scroll.scrollTo(0,0,500)
       },
       scrollContent(position){
         this.isShowBackTop = (-position.y) > 800
@@ -122,7 +134,8 @@
           this.goodsList[type].list.push(...goodsList)
           this.goodsList[type].page += 1
 
-          this.$refs.scroll.scroll.finishPullUp()
+          //完成上拉,以便于重新加载新数据,不然只能加载一次
+          this.$refs.scroll.finishPullUp()
         })
       }
     }

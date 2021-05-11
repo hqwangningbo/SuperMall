@@ -34,15 +34,33 @@
         pullUpLoad: this.pullUpLoad
       })
       // 监听滚动的位置
-      this.scroll.on('scroll',(position)=>{
-        // console.log(position);
-        this.$emit('scroll',position)
-      })
-      //监听上拉
-      this.scroll.on('pullingUp',()=>{
-        // console.log("上拉加载");
-        this.$emit('pullingUp')
-      })
+      if (this.probeType == 2 || this.probeType == 3) {
+        this.scroll.on('scroll',(position)=>{
+          // console.log(position);
+          this.$emit('scroll',position)
+        })
+      }
+      if (this.pullUpLoad) {
+        //监听上拉
+        this.scroll.on('pullingUp',()=>{
+          // console.log("上拉加载");
+          this.$emit('pullingUp')
+        })
+      }
+    },
+    methods:{
+      //返回顶部默认300毫秒
+      scrollTo(x,y,time=300){
+        this.scroll && this.scroll.scrollTo(x,y,time)
+      },
+      //完成上拉,以便于重新加载新数据
+      finishPullUp(){
+        this.scroll.finishPullUp()
+      },
+      //刷新
+      refresh(){
+        this.scroll.refresh()
+      }
     }
   }
 </script>
