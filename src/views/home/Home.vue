@@ -6,7 +6,12 @@
       </template>
     </nav-bar>
 
-   <scroll class="content">
+   <scroll class="content"
+           ref="scroll"
+           :probe-type="3"
+           @scroll="scrollContent"
+           :pull-up-load="true"
+           @pullingUp="loadMore">
      <home-swiper :banners="banners"/>
      <recommend-view :recommends="recommends"/>
      <feature-view/>
@@ -15,6 +20,9 @@
                   @tabClick="tabClick"></tab-control>
      <goods-list :goodsList="showGoodsList"></goods-list>
    </scroll>
+    <!--组件想要监听事件要加上.native-->
+    <back-top @click.native="backClick"
+              v-show="isShowBackTop"/>
   </div>
 </template>
 
@@ -23,6 +31,7 @@
   import FeatureView from "@/views/home/childComps/FeatureView";
   import GoodsList from "@/components/content/goods/GoodsList";
   import GoodsListItem from "@/components/content/goods/GoodsListItem";
+  import BackTop from "@/components/content/backTop/BackTop";
   import {getHomeMultidata, getHomeGoods} from "@/network/home";
 
   import HomeSwiper from "@/views/home/childComps/HomeSwiper";
@@ -43,7 +52,8 @@
           'new': {page: 1, list: []},
           'sell': {page: 1, list: []}
         },
-        currentType: 'pop'
+        currentType: 'pop',
+        isShowBackTop:false
       }
     },
     computed: {
@@ -59,7 +69,8 @@
       GoodsListItem,
       GoodsList,
       FeatureView,
-      Scroll
+      Scroll,
+      BackTop
     },
     created() {
       this.getHomeMultidata()
@@ -82,6 +93,20 @@
         }
       },
       /**
+       * 跳转到顶部
+       */
+      backClick(){
+        // console.log("backClick");
+        //跳到顶部500毫秒
+        this.$refs.scroll.scroll.scrollTo(0,0,500)
+      },
+      scrollContent(position){
+        this.isShowBackTop = (-position.y) > 800
+      },
+      loadMore(){
+        this.getHomeGoods(this.currentType)
+      },
+      /**
        * 封装网络请求
        */
       getHomeMultidata() {
@@ -95,6 +120,8 @@
           const goodsList = res.data.data.list;
           this.goodsList[type].list.push(...goodsList)
           this.goodsList[type].page += 1
+
+          this.$refs.scroll.scroll.finishPullUp()
         })
       }
     }
