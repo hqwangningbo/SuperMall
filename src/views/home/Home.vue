@@ -10,8 +10,7 @@
            ref="scroll"
            :probe-type="3"
            @scroll="scrollContent"
-           :pull-up-load="true"
-           @pullingUp="loadMore">
+           :pull-up-load="true" >
      <home-swiper :banners="banners"/>
      <recommend-view :recommends="recommends"/>
      <feature-view/>
@@ -77,6 +76,11 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+
+      //事件总线，解决滑动划不动的bug
+      this.$bus.$on('itemImageLoad',()=>{
+        this.$refs.scroll.scroll.refresh()
+      })
     },
     methods: {
       tabClick(index) {
@@ -102,9 +106,6 @@
       },
       scrollContent(position){
         this.isShowBackTop = (-position.y) > 800
-      },
-      loadMore(){
-        this.getHomeGoods(this.currentType)
       },
       /**
        * 封装网络请求
