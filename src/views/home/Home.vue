@@ -102,11 +102,10 @@
       this.getHomeGoods('sell')
     },
     mounted(){
-
       const refresh = debounce(this.$refs.scroll.refresh,300)
       //事件总线，解决滑动划不动的bug
       //this.$refs.scroll在Created里面是可能拿不到的，在mounted就能拿到
-      this.$bus.$on('itemImageLoad',()=>{
+      this.$bus.$on('homeItemImageLoad',()=>{
         //this.$refs.scroll先判断前面是否存在，再去执行下面的代码
         refresh()
       })
@@ -168,6 +167,9 @@
           this.$refs.scroll.finishPullUp()
         })
       }
+    },
+    destroyed(){
+      console.log("home被销毁");
     }
 
   }
