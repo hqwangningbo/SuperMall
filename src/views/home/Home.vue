@@ -1,26 +1,45 @@
 <template>
   <div id="home">
+
     <nav-bar class="home-nav">
       <template v-slot:center>
         主页
       </template>
     </nav-bar>
-
+    <tab-control class="tab-control"
+                 :titles="['流行', '新款', '精选']"
+                 @tabClick="tabClick"
+                 ref="tabControl1"
+                 v-show="isShowTabControl"></tab-control>
    <scroll class="content"
            ref="scroll"
            :probe-type="3"
            @scroll="scrollContent"
            :pull-up-load="true"
-           @pullingUp="loadMore"> <!-- pull-up-load="true" 可以滚动-->
-     <home-swiper :banners="banners"/>
-     <recommend-view :recommends="recommends"/>
-     <feature-view/>
-     <tab-control class="tab-control"
+           @pullingUp="loadMore"> <!--
+                                    pull-up-load="true" 是否监听加载到底部
+                                    ref="scroll" 在父组件中使用子组件，通过this.$refs.scroll.数据 直接获取子组件中的数据
+                                    :probe-type="3"
+                                    @pullingUp="loadMore" 子组件发射过来的事件，scroll监听拉倒底部
+                                    @scroll="scrollContent" 子组件发射过来的事件，scroll实时监听位置
+                                    -->
+     <home-swiper :banners="banners" @bannerImageLoaded="bannerImageLoaded"/> <!-- :banners="banners" 在父组件中网络请求到数据，发送给子组件props中的:banners -->
+     <recommend-view :recommends="recommends"/> <!-- :recommends="recommends" 在父组件中网络请求到数据，发送给子组件props中的:recommends -->
+     <feature-view/> <!-- 就加载个图片 -->
+     <tab-control
                   :titles="['流行', '新款', '精选']"
-                  @tabClick="tabClick"></tab-control>
+                  @tabClick="tabClick" ref="tabControl2"></tab-control>
      <goods-list :goodsList="showGoodsList"></goods-list>
+     <!--
+     :titles="titles" 在父组件中网络请求到数据，发送给子组件props中的:titles
+     :goodsList="showGoodsList"  this.goodsList[this.currentType].list把数据发送到子组件props goodsList。currentType通过这个来确定展示的数据
+     @tabClick="tabClick" 子组件发送过来的index来动态确定currentType，从而展示的数据不同
+     -->
    </scroll>
-    <!--组件想要监听事件要加上.native-->
+    <!--
+    组件想要监听事件要加上.native
+    v-show="isShowBackTop"是否展示
+    -->
     <back-top @click.native="backClick"
               v-show="isShowBackTop"/>
   </div>
@@ -55,7 +74,9 @@
           'sell': {page: 1, list: []}
         },
         currentType: 'pop',
-        isShowBackTop:false
+        isShowBackTop:false,
+        tabOffsetTop : 0,
+        isShowTabControl:false
       }
     },
     computed: {
@@ -89,8 +110,14 @@
         //this.$refs.scroll先判断前面是否存在，再去执行下面的代码
         refresh()
       })
+
     },
     methods: {
+      //轮播图加载完成，获取tabControl到顶部的距离
+      bannerImageLoaded(){
+        //所有的组件都有$el，获取组件中的模板元素
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
+      },
       loadMore(){
         this.getHomeGoods(this.currentType)
       },
@@ -106,6 +133,8 @@
             this.currentType = 'sell'
             break
         }
+        this.$refs.tabControl1.currentIndex = index
+        this.$refs.tabControl2.currentIndex = index
       },
 
       /**
@@ -118,6 +147,7 @@
       },
       scrollContent(position){
         this.isShowBackTop = (-position.y) > 800
+        this.isShowTabControl = this.tabOffsetTop < (-position.y)
       },
       /**
        * 封装网络请求
@@ -155,16 +185,18 @@
     background-color: var(--color-tint);
     color: #fff;
 
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 9;
+    /*position: fixed;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*z-index: 9;*/
   }
 
   .tab-control {
-    position: sticky;
-    top: 44px;
+    /*position: sticky;*/
+    /*top: 44px;*/
+    position: relative;
+    z-index: 9;
   }
   /*.content{*/
   /*  height: calc(100% - 49px);*/

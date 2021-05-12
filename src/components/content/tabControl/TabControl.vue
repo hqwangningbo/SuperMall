@@ -20,6 +20,7 @@
     methods:{
       tabClick(index){
         this.currentIndex = index
+        //将index发送到父组件
         this.$emit('tabClick',index)
       }
     },

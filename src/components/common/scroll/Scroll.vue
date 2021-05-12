@@ -55,11 +55,11 @@
       },
       //完成上拉,以便于重新加载新数据
       finishPullUp(){
-        this.scroll.finishPullUp()
+        this.scroll && this.scroll.finishPullUp()
       },
       //刷新
       refresh(){
-        this.scroll.refresh()
+        this.scroll && this.scroll.refresh()
       }
     }
   }
