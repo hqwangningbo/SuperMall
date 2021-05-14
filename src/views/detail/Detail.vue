@@ -15,6 +15,7 @@
       <detail-comment-info :comment= "commentInfo" ref="comment"/>
       <goods-list :goods-list="recommends" ref="recommend"/>
     </scroll>
+    <detail-bottom-bar/>
   </div>
 </template>
 
@@ -26,6 +27,7 @@
   import DetailGoodsInfo from "@/views/detail/childrenComps/DetailGoodsInfo";
   import DetailParamInfo from "@/views/detail/childrenComps/DetailParamInfo";
   import DetailCommentInfo from "@/views/detail/childrenComps/DetailCommentInfo";
+  import DetailBottomBar from "@/views/detail/childrenComps/DetailBottomBar";
   import GoodsList from "@/components/content/goods/GoodsList";
   import {getDetail, Goods, Shop, GoodsParam, getDetailRecommend} from "@/network/detail";
   import Scroll from "@/components/common/scroll/Scroll";
@@ -42,6 +44,7 @@
       DetailGoodsInfo,
       DetailParamInfo,
       GoodsList,
+      DetailBottomBar,
       Scroll
     },
     data() {
@@ -106,7 +109,7 @@
         this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
         this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
         this.themeTopYs.push(Number.MAX_VALUE)
-        console.log(this.themeTopYs)
+        // console.log(this.themeTopYs)
       },
       titleClick(index){
         this.$refs.scroll.scrollTo(0,-this.themeTopYs[index])
@@ -140,6 +143,6 @@
   }
 
   .content {
-    height: calc(100% - 44px);
+    height: calc(100% - 44px - 49px);
   }
 </style>
