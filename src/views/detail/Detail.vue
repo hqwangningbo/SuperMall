@@ -1,14 +1,19 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav"/>
-    <scroll class="content" ref="scroll">
+    <detail-nav-bar class="detail-nav"
+                    @titleClick="titleClick"
+                    ref="navBar"/>
+    <scroll class="content"
+            ref="scroll"
+            @scroll="contentScroll"
+            :probe-type="3">
       <detail-swiper :topImages="topImages"></detail-swiper>
-      <detail-base-info :goods="goods" @loadImgEvent = "loadImgEvent"></detail-base-info>
-      <detail-shop-info :shop="shop"></detail-shop-info>
+      <detail-base-info :goods="goods" />
+      <detail-shop-info :shop="shop"/>
       <detail-goods-info :detail-info="detailInfo" @loadImgEvent = "loadImgEvent"/>
-      <detail-param-info :param-info="paramInfo"/>
-      <detail-comment-info :comment= "commentInfo"/>
-      <goods-list :goods-list="recommends"/>
+      <detail-param-info :param-info="paramInfo"  ref="param"/>
+      <detail-comment-info :comment= "commentInfo" ref="comment"/>
+      <goods-list :goods-list="recommends" ref="recommend"/>
     </scroll>
   </div>
 </template>
@@ -48,7 +53,8 @@
         detailInfo:{},
         paramInfo:{},
         commentInfo:{},
-        recommends:[]
+        recommends:[],
+        themeTopYs:[]
       }
     },
     created() {
@@ -82,6 +88,28 @@
     methods:{
       loadImgEvent(){
         this.$refs.scroll.refresh()
+        this.getThemeTops()
+      },
+      contentScroll(position){
+        const positionY = -position.y
+        for (let i=0;i<this.themeTopYs.length-1; i++) {
+          if (positionY > this.themeTopYs[i] && positionY < this.themeTopYs[i+1]){
+            this.$refs.navBar.currentIndex = i
+            // console.log(i);
+          }
+        }
+
+      },
+      getThemeTops(){
+        this.themeTopYs.push(0)
+        this.themeTopYs.push(this.$refs.param.$el.offsetTop)
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
+        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
+        this.themeTopYs.push(Number.MAX_VALUE)
+        console.log(this.themeTopYs)
+      },
+      titleClick(index){
+        this.$refs.scroll.scrollTo(0,-this.themeTopYs[index])
       }
     },
     mounted(){
