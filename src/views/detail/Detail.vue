@@ -15,7 +15,10 @@
       <detail-comment-info :comment= "commentInfo" ref="comment"/>
       <goods-list :goods-list="recommends" ref="recommend"/>
     </scroll>
-    <detail-bottom-bar/>
+    <back-top @click.native="backClick"
+              v-show="isShowBackTop"/>
+    <detail-bottom-bar @addToCart="addToCart"/>
+    <Toast/>
   </div>
 </template>
 
@@ -32,10 +35,13 @@
   import {getDetail, Goods, Shop, GoodsParam, getDetailRecommend} from "@/network/detail";
   import Scroll from "@/components/common/scroll/Scroll";
   import {debounce} from "@/common/utils";
+  import {backTopMixin} from "@/common/mixin";
+  import Toast from "@/components/common/toast/Toast";
 
   export default {
     name: "Detail",
     components: {
+      Toast,
       DetailCommentInfo,
       DetailNavBar,
       DetailSwiper,
@@ -47,6 +53,7 @@
       DetailBottomBar,
       Scroll
     },
+    mixins:[backTopMixin],
     data() {
       return {
         iid: null,
@@ -89,6 +96,27 @@
       })
     },
     methods:{
+      addToCart(){
+        //获取购物车需要展示的信息
+        const product = {}
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.lowNowPrice
+        product.count = 1
+        product.iid = this.iid
+        //将商品添加到购物车,通过mutations来改变state的值
+        this.$store.dispatch("addCart",product).then(res=> {
+          //   this.isShow = true
+          //   this.message = res
+          //
+          //   setTimeout(()=>{
+          //     this.isShow = false
+          //   },1500)
+          // })
+          this.$toast.showTips(res, 1000)
+        })
+      },
       loadImgEvent(){
         this.$refs.scroll.refresh()
         this.getThemeTops()
@@ -101,6 +129,8 @@
             // console.log(i);
           }
         }
+        //判断是否显示回到顶部
+        this.isShowBackTop = (-position.y) > 800
 
       },
       getThemeTops(){

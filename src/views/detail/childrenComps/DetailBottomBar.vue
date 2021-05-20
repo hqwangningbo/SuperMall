@@ -35,7 +35,7 @@
     },
     methods:{
       addToCart(){
-
+        this.$emit("addToCart")
       }
     }
   }

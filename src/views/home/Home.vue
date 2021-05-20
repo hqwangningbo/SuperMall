@@ -50,10 +50,10 @@
   import FeatureView from "@/views/home/childComps/FeatureView";
   import GoodsList from "@/components/content/goods/GoodsList";
   import GoodsListItem from "@/components/content/goods/GoodsListItem";
-  import BackTop from "@/components/content/backTop/BackTop";
   import {getHomeMultidata, getHomeGoods} from "@/network/home";
 
   import {debounce} from "@/common/utils";
+  import {backTopMixin} from "@/common/mixin";
 
   import HomeSwiper from "@/views/home/childComps/HomeSwiper";
 
@@ -64,6 +64,7 @@
 
   export default {
     name: "Home",
+    mixins:[backTopMixin],
     data() {
       return {
         banners: [],
@@ -74,7 +75,6 @@
           'sell': {page: 1, list: []}
         },
         currentType: 'pop',
-        isShowBackTop:false,
         tabOffsetTop : 0,
         isShowTabControl:false
       }
@@ -92,8 +92,7 @@
       GoodsListItem,
       GoodsList,
       FeatureView,
-      Scroll,
-      BackTop
+      Scroll
     },
     created() {
       this.getHomeMultidata()
@@ -134,15 +133,6 @@
         }
         this.$refs.tabControl1.currentIndex = index
         this.$refs.tabControl2.currentIndex = index
-      },
-
-      /**
-       * 跳转到顶部
-       */
-      backClick(){
-        // console.log("backClick");
-        //跳到顶部500毫秒
-        this.$refs.scroll.scrollTo(0,0,500)
       },
       scrollContent(position){
         this.isShowBackTop = (-position.y) > 800
