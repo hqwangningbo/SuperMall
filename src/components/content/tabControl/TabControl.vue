@@ -20,6 +20,7 @@
     methods:{
       tabClick(index){
         this.currentIndex = index
+        //将index发送到父组件
         this.$emit('tabClick',index)
       }
     },
@@ -41,6 +42,7 @@
     line-height: 40px;
     background-color: #fff;
     z-index: 9;
+    /*position: fixed;*/
   }
 
   .tab-control-item {

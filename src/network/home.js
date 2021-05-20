@@ -1,19 +1,17 @@
 import {request} from './request'
 
-export function getSwiperData() {
+export function getHomeMultidata() {
   return request({
-    url: '/home/swiperdata'
+    url: '/home/multidata'
   })
 }
 
-export function getCatitems() {
+export function getHomeGoods(type, page) {
   return request({
-    url: '/home/catitems'
-  })
-}
-
-export function getFloorData() {
-  return request({
-    url:'/home/floordata'
+    url: '/home/data',
+    params: {
+      type,
+      page
+    }
   })
 }
