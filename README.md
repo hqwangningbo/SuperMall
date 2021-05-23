@@ -2,9 +2,11 @@
 
 本项目是入门Vue时，在B站看到的教学视频，根据教程一步步搭建完成，目前已达老师进度。
 
+感谢coderwhy老师
+
 为了以后更好的拓展，根据老师的数据，爬取到数据库，搭建了自己的后端，数据库文件在resource里面。
 
-后端的同学可以看一看。
+后端的同学可以看一看。 在线演示地址：[SuperMall.wangningbo.com](http://SuperMall.wangningbo.com)
 
 # 前端展示
 
@@ -12,15 +14,15 @@
 
 主页展示：
 
-<img src="D:%5CTyporaTempImages%5Cimage-20210523182248854.png" alt="image-20210523182248854" style="zoom:50%;" />
+<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182248854.png" alt="image-20210523182248854" style="zoom:50%;" />
 
 点击下方的商品可以进入详情页：
 
-<img src="D:%5CTyporaTempImages%5Cimage-20210523182407489.png" alt="image-20210523182407489" style="zoom:50%;" />
+<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182407489.png" alt="image-20210523182407489" style="zoom:50%;" />
 
 加入购物车：
 
-<img src="D:%5CTyporaTempImages%5Cimage-20210523182516466.png" alt="image-20210523182516466" style="zoom:50%;" />
+<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182516466.png" alt="image-20210523182516466" style="zoom:50%;" />
 
 # 后端接口文档
 
