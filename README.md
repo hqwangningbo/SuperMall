@@ -14,15 +14,15 @@
 
 主页展示：
 
-<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182248854.png" alt="image-20210523182248854" style="zoom:50%;" />
+<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182248854.png" alt="image-20210523182248854" style="zoom:25%;" />
 
 点击下方的商品可以进入详情页：
 
-<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182407489.png" alt="image-20210523182407489" style="zoom:50%;" />
+<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182407489.png" alt="image-20210523182407489" style="zoom:25%;" />
 
 加入购物车：
 
-<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182516466.png" alt="image-20210523182516466" style="zoom:50%;" />
+<img src="https://gitee.com/hqwangningbo/blogimage/raw/master/JavaSE/image-20210523182516466.png" alt="image-20210523182516466" style="zoom:25%;" />
 
 # 后端接口文档
 
