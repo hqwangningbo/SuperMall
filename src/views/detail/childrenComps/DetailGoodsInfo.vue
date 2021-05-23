@@ -1,37 +1,48 @@
 <template>
-  <div id="detail_goods_info" v-if="Object.keys(detailInfo).length != 0">
-    <div class="goods_info_desc">
-      <div style="float: left;" class="desc_line">
-        <i class="desc_dot"></i>
+<!--  v-if="Object.keys(detailInfo).length != 0"-->
+  <div>
+    <div id="detail_goods_info"  v-if="Object.keys(detailInfo).length !== 0">
+      <div class="goods_info_desc">
+        <div style="float: left;" class="desc_line">
+          <i class="desc_dot"></i>
+        </div>
+        <div class="desc_text">
+          {{desc }}
+        </div>
+        <div style="float: right;" class="desc_line">
+          <i style="right: 0px;" class="desc_dot"></i>
+        </div>
       </div>
-      <div class="desc_text">
-        {{ detailInfo.desc }}
+      <div class="goods_info_key">
+        <!--      {{ detailInfo.detailImage[0].key }}-->
+        卖家秀
       </div>
-      <div style="float: right;" class="desc_line">
-        <i style="right: 0px;" class="desc_dot"></i>
+      <div class="goods_info_imgs">
+        <img
+          :src="item.image"
+          alt=""
+          v-for="(item, index) in detailInfo"
+          :keys="index"
+          @load="loadImg"
+        />
       </div>
-    </div>
-    <div class="goods_info_key">
-      {{ detailInfo.detailImage[0].key }}
-    </div>
-    <div class="goods_info_imgs">
-      <img
-        :src="item"
-        alt=""
-        v-for="(item, index) in detailInfo.detailImage[0].list"
-        :keys="index"
-        @load="loadImg"
-      />
     </div>
   </div>
+
 </template>
 <script>
   export default {
     props: {
       detailInfo: {
-        type: Object,
+        type: Array,
         default() {
-          return {};
+          return [];
+        }
+      },
+      desc:{
+        type:String,
+        default() {
+          return null;
         }
       }
     },
@@ -51,7 +62,7 @@
     },
     watch:{
       detailInfo() {
-        this.imagesLength = this.detailInfo.detailImage[0].list.length
+        this.imagesLength = this.detailInfo.length
       }
     }
   };

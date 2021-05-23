@@ -1,14 +1,18 @@
 import {request} from './request'
 
-export function getHomeMultidata() {
+export function getSwiperImage() {
   return request({
-    url: '/home/multidata'
+    url: '/home/getSwiperImage'
   })
 }
-
+export function getRecommendImage() {
+  return request({
+    url: '/home/getRecommendImage'
+  })
+}
 export function getHomeGoods(type, page) {
   return request({
-    url: '/home/data',
+    url: '/home/goods',
     params: {
       type,
       page

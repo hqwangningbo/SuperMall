@@ -1,7 +1,7 @@
 <template>
   <div id="shop-info" v-if="Object.keys(shop).length != 0">
     <div class="shop_name">
-      <img :src="shop.logo" alt="" />
+      <img :src="shop.shopLogo" alt="" />
       <span>{{ shop.name }}</span>
     </div>
 
@@ -11,29 +11,61 @@
           <div>{{ sellValue }}万</div>
           <div style="font-size: 0.6rem;">总销量</div>
         </div>
+        <div class="score_fans">
+          <div>{{ shop.cfans }}</div>
+          <div style="font-size: 0.6rem;">粉丝数</div>
+        </div>
         <div class="score_item">
-          <div>{{ shop.goods }}</div>
+          <div>{{ shop.cgoods }}</div>
           <div style="font-size: 0.6rem;">全部宝贝</div>
         </div>
+
       </div>
       <div class="score_right">
         <table>
-          <tr v-for="(item, index) in shop.score" :key="index">
-            <td>{{ item.name }}</td>
-            <td :style="{ color: item.isBetter ? 'red' : 'green' }">
-              {{ item.score }}
+          <tr>
+            <td>描述相符</td>
+            <td :style="{ color: isBetter(shop.descConsistentScore) ? 'red' : 'green' }">
+              {{shop.descConsistentScore}}
             </td>
             <td
               style="color: white;"
-              :style="{ backgroundColor: item.isBetter ? 'red' : 'green' }"
+              :style="{ backgroundColor: isBetter(shop.descConsistentScore) ? 'red' : 'green' }"
             >
-              {{ item.isBetter ? "高" : "低" }}
+              {{ isBetter(shop.descConsistentScore) ? "高" : "低" }}
+            </td>
+          </tr>
+          <tr>
+            <td>价格合理</td>
+            <td :style="{ color: isBetter(shop.priceReasonableScore) ? 'red' : 'green' }">
+              {{shop.priceReasonableScore}}
+            </td>
+            <td
+              style="color: white;"
+              :style="{ backgroundColor: isBetter(shop.priceReasonableScore) ? 'red' : 'green' }"
+            >
+              {{ isBetter(shop.priceReasonableScore) ? "高" : "低" }}
+            </td>
+          </tr>
+          <tr>
+            <td>质量满意</td>
+            <td :style="{ color: isBetter(shop.qualitySatisfiedScore) ? 'red' : 'green' }">
+              {{shop.qualitySatisfiedScore}}
+            </td>
+            <td
+              style="color: white;"
+              :style="{ backgroundColor: isBetter(shop.qualitySatisfiedScore) ? 'red' : 'green' }"
+            >
+              {{ isBetter(shop.qualitySatisfiedScore) ? "高" : "低" }}
             </td>
           </tr>
         </table>
       </div>
     </div>
-    <div class="come-shop">进店逛逛</div>
+    <div class="come-shop">
+      <a :href="shop.shopUrl"> 进店逛逛</a>
+
+    </div>
   </div>
 </template>
 
@@ -50,14 +82,12 @@
     computed: {
       sellValue() {
         /* parseFloat(this.shop.sells / 10000).toFixed(1) */
-        return Math.round((this.shop.sells / 10000) * 10) / 10;
-      },
-      betterScore(isBetter) {
-        if (isBetter) {
-          return "{ backgroundColor: red, color: white}";
-        } else {
-          return "{ backgroundColor: green, color: white}";
-        }
+        return Math.round((this.shop.csells / 10000) * 10) / 10;
+      }
+    },
+    methods:{
+      isBetter(descConsistentScore){
+        return descConsistentScore>=5
       }
     }
   };
@@ -102,6 +132,7 @@
     flex: 1;
   }
   .score_sell,
+  .score_fans,
   .score_item {
     text-align: center;
   }

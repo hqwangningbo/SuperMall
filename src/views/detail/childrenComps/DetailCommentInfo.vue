@@ -6,8 +6,8 @@
     </div>
     <div class="comment_info">
       <div class="u_info">
-        <img :src="comment.user.avatar" alt="" />
-        <span>{{ comment.user.uname }}</span>
+        <img :src="comment.avatar" alt="" />
+        <span>{{ comment.uname }}</span>
       </div>
       <div class="comment_content">
         <div class="content">{{ comment.content }}</div>
@@ -16,17 +16,17 @@
         </p>
       </div>
     </div>
-    <div class="shop_reply" v-if="comment.explain != null">
-      {{ comment.explain }}
-    </div>
-    <div class="comment_img" v-if="comment.images != null">
-      <img
-        :src="item"
-        alt=""
-        v-for="(item, index) in comment.images"
-        :key="index"
-      />
-    </div>
+<!--    <div class="shop_reply" v-if="comment.explain != null">-->
+<!--      {{ comment.explain }}-->
+<!--    </div>-->
+<!--    <div class="comment_img" v-if="comment.images != null">-->
+<!--      <img-->
+<!--        :src="item"-->
+<!--        alt=""-->
+<!--        v-for="(item, index) in comment.images"-->
+<!--        :key="index"-->
+<!--      />-->
+<!--    </div>-->
   </div>
 </template>
 <script>

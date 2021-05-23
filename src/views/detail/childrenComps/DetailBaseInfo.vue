@@ -7,16 +7,16 @@
       <span v-if="goods.discountDesc" class="discountDesc">{{goods.discountDesc}}</span>
     </div>
     <div class="other-info">
-      <span>{{goods.columns[0]}}</span>
-      <span>{{goods.columns[1]}}</span>
-      <span>{{goods.services[goods.services.length-1].name}}</span>
+      <span>{{goods.sales}}</span>
+      <span>{{goods.collections}}</span>
+      <span>{{goods.deliveryMethod}}</span>
     </div>
-    <div class="service-info">
-      <span class="service-info-item" v-for="index in goods.services.length-1">
-        <img :src="goods.services[index-1].icon" alt="">
-        <span>{{goods.services[index-1].name}}</span>
-      </span>
-    </div>
+<!--    <div class="service-info">-->
+<!--      <span class="service-info-item" v-for="index in goods.services.length-1">-->
+<!--        <img :src="goods.services[index-1].icon" alt="">-->
+<!--        <span>{{goods.services[index-1].name}}</span>-->
+<!--      </span>-->
+<!--    </div>-->
   </div>
 </template>
 

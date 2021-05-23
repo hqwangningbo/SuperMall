@@ -1,6 +1,5 @@
 <template>
   <div id="home">
-
     <nav-bar class="home-nav">
       <template v-slot:center>
         主页
@@ -24,7 +23,8 @@
                                     @scroll="scrollContent" 子组件发射过来的事件，scroll实时监听位置
                                     -->
      <home-swiper :banners="banners" @bannerImageLoaded="bannerImageLoaded"/> <!-- :banners="banners" 在父组件中网络请求到数据，发送给子组件props中的:banners -->
-     <recommend-view :recommends="recommends"/> <!-- :recommends="recommends" 在父组件中网络请求到数据，发送给子组件props中的:recommends -->
+     <recommend-view :recommends="recommends"
+                     @recommendsImageLoad="recommendsImageLoad"/> <!-- :recommends="recommends" 在父组件中网络请求到数据，发送给子组件props中的:recommends -->
      <feature-view/> <!-- 就加载个图片 -->
      <tab-control
                   :titles="['流行', '新款', '精选']"
@@ -50,7 +50,7 @@
   import FeatureView from "@/views/home/childComps/FeatureView";
   import GoodsList from "@/components/content/goods/GoodsList";
   import GoodsListItem from "@/components/content/goods/GoodsListItem";
-  import {getHomeMultidata, getHomeGoods} from "@/network/home";
+  import {getSwiperImage,getRecommendImage,getHomeGoods} from "@/network/home";
 
   import {debounce} from "@/common/utils";
   import {backTopMixin} from "@/common/mixin";
@@ -95,7 +95,8 @@
       Scroll
     },
     created() {
-      this.getHomeMultidata()
+      this.getSwiperImage()
+      this.getRecommendImage()
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
@@ -114,6 +115,10 @@
       //轮播图加载完成，获取tabControl到顶部的距离
       bannerImageLoaded(){
         //所有的组件都有$el，获取组件中的模板元素
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
+      },
+      //推荐图加载完成，获取tabControl到顶部的距离
+      recommendsImageLoad(){
         this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
       },
       loadMore(){
@@ -141,27 +146,26 @@
       /**
        * 封装网络请求
        */
-      getHomeMultidata() {
-        getHomeMultidata().then(res => {
-          this.banners = res.data.data['banner'].list
-          this.recommends = res.data.data['recommend'].list
+      getSwiperImage() {
+        getSwiperImage().then(res => {
+          this.banners = res.data
         })
       },
       getHomeGoods(type) {
         getHomeGoods(type, this.goodsList[type].page).then(res => {
-          const goodsList = res.data.data.list;
+          const goodsList = res.data
           this.goodsList[type].list.push(...goodsList)
           this.goodsList[type].page += 1
-
           //完成上拉,以便于重新加载新数据,不然只能加载一次
           this.$refs.scroll.finishPullUp()
         })
+      },
+      getRecommendImage(){
+        getRecommendImage().then(res => {
+          this.recommends = res.data
+        })
       }
-    },
-    destroyed(){
-      console.log("home被销毁");
     }
-
   }
 </script>
 
