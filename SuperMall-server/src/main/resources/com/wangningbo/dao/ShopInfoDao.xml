@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangningbo.dao.ShopInfoDao">
+
+    <insert id="insertShopInfo" parameterType="ShopInfo">
+        insert into
+        shop_info
+        values
+        (#{shopId},#{name},#{shopLogo},#{shopUrl},#{cSells},#{cFans},#{cGoods},#{descConsistentScore},#{priceReasonableScore},#{qualitySatisfiedScore})
+    </insert>
+    <select id="findByShopId" parameterType="string" resultType="ShopInfo">
+        select * from shop_info where shopId = #{shopId}
+    </select>
+</mapper>

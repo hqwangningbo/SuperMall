@@ -1,0 +1,15 @@
+server:
+  port: 8888
+
+# 配置数据源
+spring:
+  datasource:
+    url: jdbc:mysql://47.106.10.136/supermall?useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: "093919"
+
+# 整合mybatis
+mybatis:
+  typeAliasesPackage: com.wangningbo.pojo
+#  mapper-locations: classpath*:com/neuedu/boot/mapper/*.xml

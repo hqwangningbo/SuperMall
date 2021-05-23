@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangningbo.dao.GoodDao">
+
+    <select id="findPopByPage" parameterType="map" resultType="good">
+        select * from home_pop_good_list limit #{startIndex},#{pageSize}
+    </select>
+    <select id="findNewByPage" parameterType="map" resultType="good">
+        select * from home_new_good_list limit #{startIndex},#{pageSize}
+    </select>
+    <select id="findSellByPage" parameterType="map" resultType="good">
+        select * from home_sell_good_list limit #{startIndex},#{pageSize}
+    </select>
+</mapper>

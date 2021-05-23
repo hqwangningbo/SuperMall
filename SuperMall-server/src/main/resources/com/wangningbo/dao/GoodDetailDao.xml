@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangningbo.dao.GoodDetailDao">
+
+    <insert id="insertGoodDetail" parameterType="GoodDetail">
+        insert into
+        good_detail
+        values (#{iid},#{title},#{desc},#{oldPrice},#{price},#{discountDesc},#{sales},#{collections},#{deliveryMethod},#{shopId})
+    </insert>
+    <select id="findByIid" resultType="GoodDetail">
+        select * from good_detail where iid = #{iid}
+    </select>
+    <select id="findAll" resultType="GoodDetail">
+        select * from good_detail
+    </select>
+    <update id="updateGoodDetail" parameterType="GoodDetail">
+        update good_detail set good_detail.title = #{title} where iid = #{iid}
+    </update>
+</mapper>

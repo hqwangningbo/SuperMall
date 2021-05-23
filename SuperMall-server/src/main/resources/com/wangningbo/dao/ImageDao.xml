@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangningbo.dao.ImageDao">
+
+    <select id="findAllHomeSwiperImage" resultType="HomeImage">
+        select * from home_swiper_image
+    </select>
+    <select id="findAllHomeRecommendImage" resultType="HomeImage">
+        select * from home_recommend_image
+    </select>
+    <select id="findGoodDetailSwiperImageByIid" parameterType="string" resultType="GoodDetailImage">
+        select * from good_detail_swiper_image where iid like CONCAT('%', #{iid} ,'%')
+    </select>
+    <select id="findGoodDetailSellerShowImageByIid" parameterType="string" resultType="GoodDetailImage">
+        select * from good_detail_seller_show_image where iid like CONCAT('%', #{iid} ,'%')
+    </select>
+
+</mapper>
